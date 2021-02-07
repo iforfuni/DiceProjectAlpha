@@ -1,0 +1,10 @@
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\bin\Debug\DiceProjectAlpha.exe.config
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\bin\Debug\DiceProjectAlpha.exe
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\bin\Debug\DiceProjectAlpha.pdb
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.csprojAssemblyReference.cache
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.Form1.resources
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.Properties.Resources.resources
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.csproj.GenerateResource.cache
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.exe
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.pdb
