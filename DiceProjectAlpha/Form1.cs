@@ -12,18 +12,16 @@ namespace DiceProjectAlpha
 {
     public partial class Form1 : Form
     {
+        LogicController Controller;
+
+        int TableWidth = 15;
+        int TableHeight = 21;
+        PictureBox[,] Map;
+        
         public Form1()
         {
+            Map = new PictureBox[TableWidth, TableHeight];
             InitializeComponent();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            Dice MyDice = new Dice();
-            MessageBox.Show(MyDice.Roll(pictureBox1).ToString());
-            Dice MyDice2 = new Dice();
-            MessageBox.Show(MyDice2.Roll(pictureBox1).ToString());
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -40,12 +38,13 @@ namespace DiceProjectAlpha
             bob.Attack = 1;
             Character karen = new Character();
             karen.Attack = 3;
-            MessageBox.Show("Bob's attack: "+ bob.Attack);
-            MessageBox.Show("Karen's attack: " + karen.Attack + " boooooo");
+            MessageBox.Show("Bob's attack: " + bob.Attack);
+            MessageBox.Show("Karen's attack: " + karen.Attack);
+            bob.Maxhp = 10;
             bob.Health = 10;
             karen.Health = 3;
             karen.DealDamage(bob);
-            MessageBox.Show("Karen attacked bob. Bob's remaining life: "+bob.Health);
+            MessageBox.Show("Karen attacked bob. Bob's remaining life: " + bob.Health);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -68,7 +67,7 @@ namespace DiceProjectAlpha
             John.Maxhp = 5;
             John.Health = 4;
             Carlos.GiveHeal(John);
-            
+
 
         }
 
@@ -82,7 +81,100 @@ namespace DiceProjectAlpha
                 peepeepoopoo.Maxhp = r.Next(1, 11);
                 deck.Add(peepeepoopoo);
             }
-            
+
         }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Fighter Juan = new Fighter();
+            MessageBox.Show("Juan támadási értéke: " + Juan.Attack.ToString());
+            Character Karen = new Character();
+            Karen.Maxhp = 3;
+            Karen.Health = 1;
+            Juan.DealDamage(Karen);
+            MessageBox.Show(Karen.Health + " ennyi maradt Karenből :)");
+        }
+        private void Alejandro()
+        { 
+            for (int i = 0; i < TableWidth; i++)
+            {
+                for (int j = 0; j < TableHeight; j++)
+                { 
+                    PictureBox tmp = new PictureBox();
+                    tmp.Location = new Point(i*45,j*45);
+                    tmp.Height = 45;
+                    tmp.Width = 45;
+                    tmp.SizeMode = PictureBoxSizeMode.StretchImage;
+                    if (j == 0)
+                    {
+                        tmp.Image = Tile.TilePicturePaths[TileState.Red];
+                    }
+                    else if (j == TableHeight - 1)
+                    {
+                        tmp.Image = Tile.TilePicturePaths[TileState.Blue];
+                    }
+                    else if (j == TableHeight / 2)
+                    {
+                        tmp.Image = Tile.TilePicturePaths[TileState.Neutral];
+                    }
+                    else
+                    {
+                        tmp.Image = Tile.TilePicturePaths[TileState.Nothing];
+                    }
+                    Map[i, j] = tmp;
+                    Controls.Add(tmp);
+                }
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Tile.Innit();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Random r = new Random();
+            SpawnUnit(r.Next(0,TableWidth), r.Next(0,TableHeight), TileState.Knight);
+
+        }
+        public bool SpawnUnit(int x, int y, TileState mob)
+        {
+            if (x>TableWidth||y>TableHeight|| x<0 || y<0)
+            {
+                return false;
+            }
+            Map[x,y].Image = Tile.TilePicturePaths[mob];
+
+            return true;
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            this.FormBorderStyle = FormBorderStyle.None;
+            WindowState = FormWindowState.Maximized;
+        }
+
+        private void btExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void OnGameStateUpdate(object sender, EventArgs e)
+        {
+            pictureBox1.Image = Controller.Dices[0].DiceImage;
+        }
+        private void btStartGame_Click(object sender, EventArgs e)
+        {
+            StartGame();
+            btStartGame.Visible = false;
+        }
+        private void StartGame() 
+        {
+            Controller = new LogicController();
+            Controller.GameStateUpdate += OnGameStateUpdate;
+            Controller.NewGame();
+        }
+
     }
 }

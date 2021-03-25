@@ -13,13 +13,13 @@ namespace DiceProjectAlpha
         /// <summary>
         /// Health of the Character
         /// </summary>
-        public int Health 
-        { 
+        public int Health
+        {
             get
             {
                 return health;
             }
-            set 
+            set
             {
                 if (value > Maxhp)
                 {
@@ -28,16 +28,17 @@ namespace DiceProjectAlpha
                 else
                 {
                     health = value;
-                }            
-            } 
+                }
+            }
         }
         public int Move { get; set; }
         public int Attack { get; set; }
         public int Range { get; set; }
         public int Maxhp { get; set; }
         public int Heal { get; set; }
-        public string Team 
-        { 
+        public bool IsAlive { get; set; }
+        public string Team
+        {
             get
             {
                 return team;
@@ -56,21 +57,27 @@ namespace DiceProjectAlpha
             Maxhp = 0;
             Heal = 0;
             Team = "Grey";
+            IsAlive = true;
+
         }
-        public Character(int born):this() 
+        public Character(int startingHealth) : this()
         {
-            Health = born;
+            Health = startingHealth;
         }
         public void TakeDamage(int amount)
         {
             Health -= amount;
+            if (Health <1)
+            {
+                System.Windows.Forms.MessageBox.Show(this+"You dead son");
+            }
         }
         public void DealDamage(Character target)
         {
             System.Windows.Forms.MessageBox.Show("Attacking with a damage of: " + Attack);
             target.TakeDamage(Attack);
         }
-        public void Regen(int heal) 
+        public void Regen(int heal)
         {
             int NewValue = Health + heal;
             Health = NewValue;
@@ -88,7 +95,7 @@ namespace DiceProjectAlpha
             {
                 System.Windows.Forms.MessageBox.Show("IMMA BAD BITHC YOU CAN'T HEAL ME");
             }
-            
+
         }
     }
 }

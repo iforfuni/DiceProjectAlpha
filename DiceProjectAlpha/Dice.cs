@@ -8,11 +8,21 @@ using System.Windows.Forms;
 
 namespace DiceProjectAlpha
 {
+    public enum DiceValues
+    {
+        Move,
+        Mana,
+        Save,
+        Land,
+        Resource,
+    }
     public class Dice
     {
+        public Image DiceImage { get; set; }
+        public DiceValues DiceValue { get; set; }
         static Random r = new Random();
         static List<string> picturelist;
-        public Dice() 
+        public Dice()
         {
             if (picturelist == null)
             {
@@ -22,16 +32,31 @@ namespace DiceProjectAlpha
                 picturelist.Add("Pictures/DiceFaces3.png");
                 picturelist.Add("Pictures/DiceFaces4.png");
                 picturelist.Add("Pictures/DiceFaces5.png");
-                picturelist.Add("Pictures/DiceFaces6.png");
-
             }
         }
-        public int Roll(PictureBox pb) 
+        public void Roll()
         {
-            int helper = r.Next(1, 7);
-            pb.Image = Image.FromFile(picturelist[helper-1]);
-            return helper;
-
-        }  
+            int helper = r.Next(1, 6);
+            DiceImage = Image.FromFile(picturelist[helper - 1]);
+            DiceValue = DiceValueConverter(helper);
+        }
+        private DiceValues DiceValueConverter(int value)
+        {
+            switch (value)
+            {
+                case 1: 
+                    return DiceValues.Land;
+                case 2:
+                    return DiceValues.Mana;
+                case 3:
+                    return DiceValues.Move;
+                case 4:
+                    return DiceValues.Save;
+                case 5:
+                    return DiceValues.Resource;
+                default: 
+                    return DiceValues.Land;
+            }
+        }
     }
 }
