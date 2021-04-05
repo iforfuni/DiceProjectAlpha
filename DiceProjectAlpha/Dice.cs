@@ -18,6 +18,7 @@ namespace DiceProjectAlpha
     }
     public class Dice
     {
+        public bool IsSelected { get; set; } = false;
         public Image DiceImage { get; set; }
         public DiceValues DiceValue { get; set; }
         static Random r = new Random();

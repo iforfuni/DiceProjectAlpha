@@ -8,48 +8,64 @@ namespace DiceProjectAlpha
 {
     public class LogicController
     {
+
         public int TableWidth { get; set; } = 15;
         public int TableHeight { get; set; } = 21;
-        public int DiceStartAmount { get; set; } = 2;
-        
-        public event EventHandler GameStateUpdate; 
-        
-        
-        public List<Dice> Dices = new List<Dice>();
+        public static int DiceStartAmount { get; set; } = 2;
+        public Player Player1 { get; set; }
+        public Player Player2 { get; set; }
+        public Player CurrentPlayer { get; set; }
+
+        public event EventHandler GameStateUpdate;
+
+
         public Tile[,] Map;
-        
+
         public LogicController()
         {
             Tile.Innit();
             Map = new Tile[TableWidth, TableHeight];
+            Player1 = new Player();
+            Player2 = new Player();
+            CurrentPlayer = Player1;
+
         }
         public void NewGame()
         {
-            FillDiceList();
             SetupMap();
             DiceRoll();
-
-            GameStateUpdate.Invoke(this,EventArgs.Empty);
+            GameStateUpdate.Invoke(this, EventArgs.Empty);
         }
 
-        private void FillDiceList()
-        { 
-
-            for (int i = 0; i < DiceStartAmount; i++)
-            {
-                Dices.Add(new Dice());
-            }
-        }
         private void DiceRoll()
         {
-            foreach (var dice in Dices)
-            {
-                dice.Roll();
-            }
+            CurrentPlayer.DiceRoll();
+
         }
         private void SetupMap()
-        { 
-            
+        {
+            for (int i = 0; i < TableWidth; i++)
+            {
+                for (int j = 0; j < TableHeight; j++)
+                {
+                    if (j==0)
+                    {
+                        Map[i, j] = new Tile(TileState.Red);
+                    }
+                    else if (j == TableHeight - 1)
+                    {
+                        Map[i, j] = new Tile(TileState.Blue);
+                    }
+                    else if(j == TableHeight/2)      
+                    {
+                        Map[i, j] = new Tile(TileState.Neutral);
+                    }
+                    else
+                    {
+                        Map[i, j] = new Tile(TileState.Nothing);
+                    }
+                }
+            }
         }
     }
 }

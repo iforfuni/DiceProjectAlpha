@@ -16,14 +16,17 @@ namespace DiceProjectAlpha
         Nothing,
         Knight,
     }
+    
     public class Tile
     {
+        public TileState State { get; set; }
+
         static bool initialize = false;
         public static Dictionary<TileState,Image> TilePicturePaths = new Dictionary<TileState,Image>();
 
-        public Tile()
+        public Tile(TileState state)
         {
-                
+            State = state;
         }
         public static void Innit()
         {
@@ -36,7 +39,6 @@ namespace DiceProjectAlpha
                 TilePicturePaths.Add(TileState.Knight, Image.FromFile("Pictures/KnightMob.jpg"));
                 initialize = true;
             }
-            
         }
     }
 }

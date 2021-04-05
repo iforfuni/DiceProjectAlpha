@@ -12,143 +12,33 @@ namespace DiceProjectAlpha
 {
     public partial class Form1 : Form
     {
+        public Player BindedPlayer { get; set; }
+
         LogicController Controller;
 
-        int TableWidth = 15;
-        int TableHeight = 21;
         PictureBox[,] Map;
-        
+        public List<PictureBox> diceHolder = new List<PictureBox>();
         public Form1()
         {
-            Map = new PictureBox[TableWidth, TableHeight];
+            Controller = new LogicController();
+            BindedPlayer = Controller.Player1;   
+            Map = new PictureBox[Controller.TableWidth, Controller.TableHeight];
             InitializeComponent();
-        }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Character joe = new Character(3);
-            MessageBox.Show(joe.Health.ToString());
-            joe.TakeDamage(2);
-            MessageBox.Show(joe.Health.ToString());
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Character bob = new Character();
-            bob.Attack = 1;
-            Character karen = new Character();
-            karen.Attack = 3;
-            MessageBox.Show("Bob's attack: " + bob.Attack);
-            MessageBox.Show("Karen's attack: " + karen.Attack);
-            bob.Maxhp = 10;
-            bob.Health = 10;
-            karen.Health = 3;
-            karen.DealDamage(bob);
-            MessageBox.Show("Karen attacked bob. Bob's remaining life: " + bob.Health);
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            Character Juanita = new Character();
-            Juanita.Maxhp = 11;
-            Juanita.Health = 5;
-            MessageBox.Show(Juanita.Health.ToString());
-            Juanita.Regen(40);
-            MessageBox.Show(Juanita.Health.ToString());
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            Character Carlos = new Character();
-            Character John = new Character();
-            Carlos.Team = "Red";
-            John.Team = "Blue";
-            Carlos.Heal = 2;
-            John.Maxhp = 5;
-            John.Health = 4;
-            Carlos.GiveHeal(John);
-
+            diceHolder.Add(pictureBox1);
+            diceHolder.Add(pictureBox2);
+            diceHolder.Add(pictureBox3);
+            diceHolder.Add(pictureBox4);
+            diceHolder.Add(pictureBox5);
+            diceHolder.Add(pictureBox6);
+            diceHolder.Add(pictureBox7);
+            diceHolder.Add(pictureBox8);
+            diceHolder.Add(pictureBox9);
+            diceHolder.Add(pictureBox10);
+            diceHolder.Add(pictureBox11);
+            diceHolder.Add(pictureBox12);
 
         }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            List<Character> deck = new List<Character>();
-            Random r = new Random();
-            for (int i = 0; i < 5; i++)
-            {
-                Character peepeepoopoo = new Character();
-                peepeepoopoo.Maxhp = r.Next(1, 11);
-                deck.Add(peepeepoopoo);
-            }
-
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            Fighter Juan = new Fighter();
-            MessageBox.Show("Juan támadási értéke: " + Juan.Attack.ToString());
-            Character Karen = new Character();
-            Karen.Maxhp = 3;
-            Karen.Health = 1;
-            Juan.DealDamage(Karen);
-            MessageBox.Show(Karen.Health + " ennyi maradt Karenből :)");
-        }
-        private void Alejandro()
-        { 
-            for (int i = 0; i < TableWidth; i++)
-            {
-                for (int j = 0; j < TableHeight; j++)
-                { 
-                    PictureBox tmp = new PictureBox();
-                    tmp.Location = new Point(i*45,j*45);
-                    tmp.Height = 45;
-                    tmp.Width = 45;
-                    tmp.SizeMode = PictureBoxSizeMode.StretchImage;
-                    if (j == 0)
-                    {
-                        tmp.Image = Tile.TilePicturePaths[TileState.Red];
-                    }
-                    else if (j == TableHeight - 1)
-                    {
-                        tmp.Image = Tile.TilePicturePaths[TileState.Blue];
-                    }
-                    else if (j == TableHeight / 2)
-                    {
-                        tmp.Image = Tile.TilePicturePaths[TileState.Neutral];
-                    }
-                    else
-                    {
-                        tmp.Image = Tile.TilePicturePaths[TileState.Nothing];
-                    }
-                    Map[i, j] = tmp;
-                    Controls.Add(tmp);
-                }
-            }
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            Tile.Innit();
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            Random r = new Random();
-            SpawnUnit(r.Next(0,TableWidth), r.Next(0,TableHeight), TileState.Knight);
-
-        }
-        public bool SpawnUnit(int x, int y, TileState mob)
-        {
-            if (x>TableWidth||y>TableHeight|| x<0 || y<0)
-            {
-                return false;
-            }
-            Map[x,y].Image = Tile.TilePicturePaths[mob];
-
-            return true;
-        }
-
         private void Form1_Shown(object sender, EventArgs e)
         {
             this.FormBorderStyle = FormBorderStyle.None;
@@ -162,7 +52,21 @@ namespace DiceProjectAlpha
 
         private void OnGameStateUpdate(object sender, EventArgs e)
         {
-            pictureBox1.Image = Controller.Dices[0].DiceImage;
+            int i = 0;
+            foreach (var item in BindedPlayer.Dices)
+            {
+                diceHolder[i].Image = item.DiceImage;
+                i++;
+            }
+            for (int  j = 0;  j <Controller.TableWidth;  j++)
+            {
+                for (int k = 0; k < Controller.TableHeight; k++)
+                {
+                    TileState test = Controller.Map[j, k].State;
+                    Image help = Tile.TilePicturePaths[test];
+                    Map[j, k].Image = help;
+                }
+            }
         }
         private void btStartGame_Click(object sender, EventArgs e)
         {
@@ -171,10 +75,91 @@ namespace DiceProjectAlpha
         }
         private void StartGame() 
         {
-            Controller = new LogicController();
+            SetupMap();
             Controller.GameStateUpdate += OnGameStateUpdate;
             Controller.NewGame();
+            
+        }
+        private void SetupMap() 
+        {
+            for (int i = 0; i < Controller.TableWidth; i++)
+            {
+                for (int j = 0; j < Controller.TableHeight; j++)
+                {
+                    PictureBox tmp = new PictureBox();
+                    tmp.Location = new Point(i * 50, j * 50);
+                    tmp.Height = 50;
+                    tmp.Width = 50;
+                    tmp.SizeMode = PictureBoxSizeMode.StretchImage;
+                    Map[i, j] = tmp;
+                    Controls.Add(tmp);
+                    tmp.BringToFront();
+                }
+            }
         }
 
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (BindedPlayer.Dices.Count > 0)
+            {
+                BindedPlayer.Dices[0].IsSelected = true;
+            }
+            
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[2].IsSelected = true;
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[3].IsSelected = true;
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[4].IsSelected = true;
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[5].IsSelected = true;
+        }
+
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[6].IsSelected = true;
+        }
+
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[7].IsSelected = true;
+        }
+
+        private void pictureBox9_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[8].IsSelected = true;
+        }
+
+        private void pictureBox10_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[9].IsSelected = true;
+        }
+
+        private void pictureBox11_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[10].IsSelected = true;
+        }
+
+        private void pictureBox12_Click(object sender, EventArgs e)
+        {
+            BindedPlayer.Dices[11].IsSelected = true;
+        }
     }
 }
