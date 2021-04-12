@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace DiceProjectAlpha
         public int Maxhp { get; set; }
         public int Heal { get; set; }
         public bool IsAlive { get; set; }
+        public virtual Image Portrait { get; set; }
         public string Team
         {
             get
@@ -63,13 +65,14 @@ namespace DiceProjectAlpha
         public Character(int startingHealth) : this()
         {
             Health = startingHealth;
+
         }
         public void TakeDamage(int amount)
         {
             Health -= amount;
-            if (Health <1)
+            if (Health < 1)
             {
-                System.Windows.Forms.MessageBox.Show(this+"You dead son");
+                System.Windows.Forms.MessageBox.Show(this + "You dead son");
             }
         }
         public void DealDamage(Character target)
@@ -97,5 +100,8 @@ namespace DiceProjectAlpha
             }
 
         }
+   
+       
+        
     }
 }

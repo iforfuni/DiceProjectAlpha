@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +67,11 @@ namespace DiceProjectAlpha
                     }
                 }
             }
+        }
+        private void SummonMonster(int x, int y, Character mob)
+        {
+            
+            Map[x, y].CharacterOnTile = mob; 
         }
     }
 }

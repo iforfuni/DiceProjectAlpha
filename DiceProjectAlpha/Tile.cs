@@ -14,11 +14,13 @@ namespace DiceProjectAlpha
         Blue,
         Neutral,
         Nothing,
-        Knight,
     }
     
     public class Tile
     {
+
+        public Character CharacterOnTile { get; set; }
+
         public TileState State { get; set; }
 
         static bool initialize = false;
@@ -36,7 +38,6 @@ namespace DiceProjectAlpha
                 TilePicturePaths.Add(TileState.Blue, Image.FromFile("Pictures/BluePathOriginal.png"));
                 TilePicturePaths.Add(TileState.Neutral, Image.FromFile("Pictures/NeutralPathOriginal.png"));
                 TilePicturePaths.Add(TileState.Nothing, Image.FromFile("Pictures/NothingPathOriginal.png"));
-                TilePicturePaths.Add(TileState.Knight, Image.FromFile("Pictures/KnightMob.jpg"));
                 initialize = true;
             }
         }
