@@ -16,7 +16,11 @@ namespace DiceProjectAlpha
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            LogicController Controller = new LogicController();
+            Form2 f2 = new Form2(Controller);
+            f2.Show();
+            Application.Run(new Form1(Controller));
+            
         }
     }
 }

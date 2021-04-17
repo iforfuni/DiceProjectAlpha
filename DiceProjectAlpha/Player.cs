@@ -6,16 +6,21 @@ using System.Threading.Tasks;
 
 namespace DiceProjectAlpha
 {
-    
+
     public class Player
     {
+
         public bool IsMulligan { get; set; } = true;
+        public List<Dice> Dices = new List<Dice>();
+
+        public event EventHandler DiceChanged;
+
         public Player()
         {
             FillDiceList();
 
         }
-        public List<Dice> Dices = new List<Dice>();
+
         public void DiceRoll()
         {
             foreach (var dice in Dices)
@@ -23,16 +28,34 @@ namespace DiceProjectAlpha
                 dice.Roll();
             }
         }
-        public void DiceSelect(int index) 
+        public void DiceSelect(int index)
         {
-            if (Dices.Count>index)
+            if (Dices.Count > index)
             {
                 if (IsMulligan)
                 {
                     Dices[index].IsSelected = !Dices[index].IsSelected;
+                    DiceChanged.Invoke(this, EventArgs.Empty);
                 }
             }
-            
+
+        }
+        public void RerollSelectedDices()
+        {
+            foreach (var dice in Dices)
+            {
+                if (dice.IsSelected)
+                {
+                    dice.IsSelected = false;
+                    dice.Roll();
+                    DiceChanged.Invoke(this, EventArgs.Empty);
+                                        
+                }
+            }
+        }
+        public void MulliganEnder()
+        {
+            IsMulligan = false;
         }
         private void FillDiceList()
         {
@@ -42,6 +65,5 @@ namespace DiceProjectAlpha
                 Dices.Add(new Dice());
             }
         }
-
     }
 }

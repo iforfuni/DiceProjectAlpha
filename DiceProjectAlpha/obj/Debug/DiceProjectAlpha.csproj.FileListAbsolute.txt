@@ -8,3 +8,4 @@ C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DicePro
 C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.csproj.CoreCompileInputs.cache
 C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.exe
 C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.pdb
+C:\Users\User\Desktop\BigFun\DiceProjectAlpha\DiceProjectAlpha\obj\Debug\DiceProjectAlpha.Form2.resources

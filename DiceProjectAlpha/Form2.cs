@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace DiceProjectAlpha
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
         public Player BindedPlayer { get; set; }
 
@@ -18,10 +18,10 @@ namespace DiceProjectAlpha
 
         PictureBox[,] Map;
         public List<PictureBox> diceHolder = new List<PictureBox>();
-        public Form1(LogicController controller)
+        public Form2(LogicController controller)
         {
             Controller = controller;
-            BindedPlayer = Controller.Player1;   
+            BindedPlayer = Controller.Player2;   
             Map = new PictureBox[Controller.TableWidth, Controller.TableHeight];
 
             InitializeComponent();
@@ -44,8 +44,8 @@ namespace DiceProjectAlpha
         }
         private void Form1_Shown(object sender, EventArgs e)
         {
-           // this.FormBorderStyle = FormBorderStyle.None;
-           // WindowState = FormWindowState.Maximized;
+            //this.FormBorderStyle = FormBorderStyle.None;
+            //WindowState = FormWindowState.Maximized;
         }
 
         private void btExit_Click(object sender, EventArgs e)

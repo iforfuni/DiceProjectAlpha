@@ -68,10 +68,27 @@ namespace DiceProjectAlpha
                 }
             }
         }
-        private void SummonMonster(int x, int y, Character mob)
+        public void SummonMonster(int x, int y, Character mob)
         {
             
-            Map[x, y].CharacterOnTile = mob; 
+            Map[x, y].CharacterOnTile = mob;
+            GameStateUpdate.Invoke(this, EventArgs.Empty);
+
+        }
+        public void EndTurn(Player player)
+        {
+            if (CurrentPlayer==player)
+            {
+                if (Player1 == CurrentPlayer)
+                {
+                    CurrentPlayer = Player2;
+                }
+                else
+                {
+                    CurrentPlayer = Player1;
+                }
+            }
+            GameStateUpdate.Invoke(this,EventArgs.Empty);
         }
     }
 }
